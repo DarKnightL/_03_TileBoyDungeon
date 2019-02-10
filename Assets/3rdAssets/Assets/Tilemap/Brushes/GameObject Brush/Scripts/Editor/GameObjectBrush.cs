@@ -391,7 +391,7 @@ namespace UnityEditor
                 return;
 
             GameObject instance = null;
-            if (PrefabUtility.IsComponentAddedToPrefabInstance(go))
+            if (PrefabUtility.GetPrefabType(go) == PrefabType.Prefab)
             {
                 instance = (GameObject) PrefabUtility.InstantiatePrefab(go);
             }
