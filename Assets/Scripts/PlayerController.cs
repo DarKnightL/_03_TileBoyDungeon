@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private PlayerAnim playerAnim;
     private SpriteRenderer playerSprite;
+    private SpriteRenderer arcSprite;
 
     private bool animGrounded = false;
 
@@ -24,6 +25,7 @@ public class PlayerController : MonoBehaviour
         playerAnim = GetComponent<PlayerAnim>();
         //playerAnim = FindObjectOfType<PlayerAnim>();
         playerSprite = GetComponentInChildren<SpriteRenderer>();
+        arcSprite = transform.GetChild(1).GetComponent<SpriteRenderer>();
     }
 
 
@@ -31,7 +33,7 @@ public class PlayerController : MonoBehaviour
     {
 
         Movement();
-        if (Input.GetMouseButtonDown(0)&&CheckGrounded())
+        if (Input.GetMouseButtonDown(0) && CheckGrounded())
         {
             playerAnim.AnimRegAttack();
         }
@@ -64,10 +66,15 @@ public class PlayerController : MonoBehaviour
         if (moveLeftRight > 0)
         {
             playerSprite.flipX = false;
+            arcSprite.transform.localScale = Vector3.one;
         }
         else if (moveLeftRight < 0)
         {
             playerSprite.flipX = true;
+            //Vector2 newPos = arcSprite.transform.localPosition; //Remember to use localAxis
+            //newPos.x = 0f;
+            //arcSprite.transform.localPosition = newPos;
+            arcSprite.transform.localScale = new Vector3(-1f, -1f, 0f); //when the target of flip is animation, the flipX function will be disable;
         }
     }
 
