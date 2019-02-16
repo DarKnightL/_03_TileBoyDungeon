@@ -20,14 +20,19 @@ public abstract class Enemy : MonoBehaviour
 
     private Vector3 currentTarget;
 
+    protected bool isHit;
+
+    protected PlayerController player;
 
 
-    
 
 
-    public virtual void Init() {
+
+    public virtual void Init()
+    {
         enemySprite = GetComponentInChildren<SpriteRenderer>();
         enemyAnimator = GetComponentInChildren<Animator>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
 
 
@@ -39,15 +44,26 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void Update()
     {
-        if (enemyAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        if (enemyAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !enemyAnimator.GetBool("InCombat"))
         {
             return;
         }
+
         Movement();
+
     }
 
 
-    public virtual void Movement() {
+    public virtual void Movement()
+    {
+
+        float distance = Vector3.Distance(transform.localPosition, player.transform.position);
+        if (distance > 1.0f)
+        {
+            isHit = false;
+
+            enemyAnimator.SetBool("InCombat", false);
+        }
 
 
         if (currentTarget == pointA.position)
@@ -58,7 +74,6 @@ public abstract class Enemy : MonoBehaviour
         {
             enemySprite.flipX = false;
         }
-
 
 
         if (transform.position == pointA.position)
@@ -72,7 +87,12 @@ public abstract class Enemy : MonoBehaviour
             enemyAnimator.SetTrigger("Idle");
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+        if (isHit == false)//Cannot be decided on the Update Loop in case the Movement() not been updated constantly
+        {
+            transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+        }
+
+
     }
 }
 
