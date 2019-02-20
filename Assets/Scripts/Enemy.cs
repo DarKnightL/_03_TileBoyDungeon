@@ -21,8 +21,11 @@ public abstract class Enemy : MonoBehaviour
     private Vector3 currentTarget;
 
     protected bool isHit;
+    protected bool isDead = false;
+
 
     protected PlayerController player;
+
 
 
 
@@ -49,7 +52,11 @@ public abstract class Enemy : MonoBehaviour
             return;
         }
 
-        Movement();
+        if (!isDead)
+        {
+            Movement();
+        }
+      
 
     }
 
@@ -58,7 +65,7 @@ public abstract class Enemy : MonoBehaviour
     {
 
         float distance = Vector3.Distance(transform.localPosition, player.transform.position);
-        if (distance > 1.0f)
+        if (distance > 2.0f)
         {
             isHit = false;
 
@@ -90,6 +97,17 @@ public abstract class Enemy : MonoBehaviour
         if (isHit == false)//Cannot be decided on the Update Loop in case the Movement() not been updated constantly
         {
             transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+        }
+
+
+        Vector3 direction = player.transform.localPosition - transform.position;
+        if (direction.x > 0 && enemyAnimator.GetBool("InCombat"))
+        {
+            enemySprite.flipX = false;
+        }
+        else if (direction.x <= 0 && enemyAnimator.GetBool("InCombat"))
+        {
+            enemySprite.flipX = true;
         }
 
 

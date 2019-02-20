@@ -22,17 +22,12 @@ public class Skeleton : Enemy, IDamagable
         isHit = true;
         if (Health <= 0)
         {
-            Destroy(this.gameObject);
+            isDead = true;
+            enemyAnimator.SetTrigger("Death");
+            Destroy(this.gameObject,5f);
         }
     }
 
-
-    //public override void Movement()
-    //{
-    //    base.Movement();
-    //    float distance = Vector3.Distance(transform.localPosition, player.transform.localPosition);
-    //    Debug.Log("SkeletonDistance:" + distance);
-    //}
 
 
 }

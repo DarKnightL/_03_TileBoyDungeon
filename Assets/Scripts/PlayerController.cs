@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour,IDamagable
 {
 
     private Rigidbody2D rigidbody;
@@ -18,6 +18,9 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer arcSprite;
 
     private bool animGrounded = false;
+
+  
+    
 
     void Start()
     {
@@ -102,7 +105,10 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+    public void Damage()
+    {
+        
+    }
 
-
-
+    public int Health { get; set; }
 }
