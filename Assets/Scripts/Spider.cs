@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class Spider : Enemy, IDamagable
 {
-  
 
-    public void Damage(){
+
+    public void Damage()
+    {
+        if (isDead)
+        {
+            return;
+        }
+
         Health--;
-        
+
         if (Health <= 0)
         {
+            GameObject diamond = Instantiate(diamondPrefab, transform.position, Quaternion.identity);
+            diamond.GetComponent<Diamond>().gems = base.gems;
             isDead = true;
             enemyAnimator.SetTrigger("Death");
-            Destroy(this.gameObject,5f);
+            Destroy(this.gameObject, 5f);
         }
     }
 
@@ -21,13 +29,14 @@ public class Spider : Enemy, IDamagable
 
     public override void Movement()
     {
-       //BLANK
+        //BLANK
     }
 
 
     public GameObject spiderAcid;
 
-    public void Fire() {
+    public void Fire()
+    {
         Instantiate(spiderAcid, transform.position, Quaternion.identity);
     }
 

@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour,IDamagable
 
     private bool animGrounded = false;
 
+    public int gemsOwn;
+
   
     
 
@@ -112,3 +114,5 @@ public class PlayerController : MonoBehaviour,IDamagable
 
     public int Health { get; set; }
 }
+
+
