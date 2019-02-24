@@ -34,6 +34,6 @@ public class Skeleton : Enemy, IDamagable
         }
     }
 
-
+    
 
 }
