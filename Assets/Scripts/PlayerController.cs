@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerController : MonoBehaviour, IDamagable
 {
@@ -38,12 +39,12 @@ public class PlayerController : MonoBehaviour, IDamagable
 
     void Update()
     {
-        if (Health<1)
+        if (Health < 1)
         {
             return;
         }
         Movement();
-        if (Input.GetMouseButtonDown(0) && CheckGrounded())
+        if ((CrossPlatformInputManager.GetButtonDown("ButtonB") || Input.GetMouseButtonDown(0)) && CheckGrounded())
         {
             playerAnim.AnimRegAttack();
         }
@@ -52,14 +53,14 @@ public class PlayerController : MonoBehaviour, IDamagable
 
     void Movement()
     {
-        float moveLeftRight = Input.GetAxisRaw("Horizontal");
+        float moveLeftRight = CrossPlatformInputManager.GetAxisRaw("Horizontal");
 
         animGrounded = CheckGrounded(); //Constantly check the raycast;
 
         SpriteFlip(moveLeftRight);
 
 
-        if (Input.GetKeyDown("space") && CheckGrounded())
+        if ((CrossPlatformInputManager.GetButtonDown("ButtonA")||Input.GetKeyDown("space"))&& CheckGrounded())
         {
             playerAnim.AnimJump(true);
             rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpForce);
@@ -130,7 +131,7 @@ public class PlayerController : MonoBehaviour, IDamagable
     }
 
 
-   
+
 
 
     public void AddGems(int num)
