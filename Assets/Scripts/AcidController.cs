@@ -23,7 +23,7 @@ public class AcidController : MonoBehaviour {
             if (hit!=null)
             {
                 hit.Damage();
-                Debug.Log("Acid Attack Player");
+                //Debug.Log("Acid Attack Player");
             }
         }
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour,IDamagable
+public class PlayerController : MonoBehaviour, IDamagable
 {
 
     private Rigidbody2D rigidbody;
@@ -21,8 +21,9 @@ public class PlayerController : MonoBehaviour,IDamagable
 
     public int gemsOwn;
 
-  
-    
+    public int Health { get; set; }
+
+
 
     void Start()
     {
@@ -31,12 +32,16 @@ public class PlayerController : MonoBehaviour,IDamagable
         //playerAnim = FindObjectOfType<PlayerAnim>();
         playerSprite = GetComponentInChildren<SpriteRenderer>();
         arcSprite = transform.GetChild(1).GetComponent<SpriteRenderer>();
+        Health = 4;
     }
 
 
     void Update()
     {
-
+        if (Health<1)
+        {
+            return;
+        }
         Movement();
         if (Input.GetMouseButtonDown(0) && CheckGrounded())
         {
@@ -107,12 +112,32 @@ public class PlayerController : MonoBehaviour,IDamagable
         return false;
     }
 
+
     public void Damage()
     {
-        
+        Debug.Log("Player Damage Function has been triggered");
+        if (Health < 1)  //Stop DeathAnim been triggered multi times
+        {
+            return;
+        }
+
+        Health--;
+        UIManager.Instance.PlayerHealthUpdate(Health);
+        if (Health < 1)
+        {
+            playerAnim.AnimDeath();
+        }
     }
 
-    public int Health { get; set; }
+
+   
+
+
+    public void AddGems(int num)
+    {
+        gemsOwn += num;
+        UIManager.Instance.PlayerGemTextUpdate(gemsOwn);
+    }
 }
 
 

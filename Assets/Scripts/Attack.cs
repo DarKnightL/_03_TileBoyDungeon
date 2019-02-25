@@ -12,6 +12,7 @@ public class Attack : MonoBehaviour
         IDamagable hit = other.GetComponent<IDamagable>();
         if (hit != null && canDamaged)
         {
+           
             hit.Damage();
             canDamaged = false;
             StartCoroutine(ResetCanDamaged());

@@ -36,6 +36,13 @@ public class PlayerAnim : MonoBehaviour {
     }
 
 
+    public void AnimDeath()
+    {
+        animator.SetTrigger("Death");
+
+    }
+
+
     
 
 }
