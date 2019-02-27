@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.CrossPlatformInput;
+using HedgehogTeam.EasyTouch;
+
 
 public class PlayerController : MonoBehaviour, IDamagable
 {
 
-    private Rigidbody2D rigidbody;
+    public Rigidbody2D rigidbody;
     [SerializeField]
     private float jumpForce = 5f;
     [SerializeField]
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour, IDamagable
     private SpriteRenderer arcSprite;
 
     private bool animGrounded = false;
+    public bool canMove = true;
 
     public int gemsOwn;
 
@@ -43,8 +45,12 @@ public class PlayerController : MonoBehaviour, IDamagable
         {
             return;
         }
+
+
         Movement();
-        if ((CrossPlatformInputManager.GetButtonDown("ButtonB") || Input.GetMouseButtonDown(0)) && CheckGrounded())
+
+
+        if (ETCInput.GetButtonDown("ButtonB") && CheckGrounded())
         {
             playerAnim.AnimRegAttack();
         }
@@ -53,14 +59,21 @@ public class PlayerController : MonoBehaviour, IDamagable
 
     void Movement()
     {
-        float moveLeftRight = CrossPlatformInputManager.GetAxisRaw("Horizontal");
+        if (!canMove)
+        {
+            return;
+        }
+
+        float moveLeftRight = ETCInput.GetAxis("Horizontal");
+
+
 
         animGrounded = CheckGrounded(); //Constantly check the raycast;
 
         SpriteFlip(moveLeftRight);
 
 
-        if ((CrossPlatformInputManager.GetButtonDown("ButtonA")||Input.GetKeyDown("space"))&& CheckGrounded())
+        if (ETCInput.GetButtonDown("ButtonA") && CheckGrounded())
         {
             playerAnim.AnimJump(true);
             rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpForce);
